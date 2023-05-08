@@ -1,0 +1,92 @@
+version: "3.1"
+
+rules:
+
+- rule: Say goodbye anytime the user says goodbye
+  steps:
+  - intent: goodbye
+  - action: utter_goodbye
+
+- rule: utter greet anytime the user says greet
+  steps:
+  - intent: greet
+  - action: utter_greet
+
+
+- rule: Say 'I am a bot' anytime the user challenges
+  steps:
+  - intent: bot_challenge
+  - action: utter_iamabot
+
+- rule: out-of-scope
+  steps:
+  - intent: out_of_scope
+  - action: utter_out_of_scope
+  - action: utter_what_i_do
+
+- rule: Ask the user to rephrase whenever they send a message with low NLU confidence
+  steps:
+  - intent: nlu_fallback
+  - action: utter_please_rephrase
+
+- rule: Activate Pizza Form
+  steps:
+  - intent: buy_pizza
+  - action: simple_pizza_form
+  - active_loop: simple_pizza_form
+
+- rule: Submit Pizza Form
+  condition:
+  - active_loop: simple_pizza_form
+  steps:
+  - action: simple_pizza_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: utter_pizza_slots
+  - intent: affirm
+  - action: utter_submit
+  - action: utter_anything_else
+
+- rule: Interruption in Pizza Form
+  condition:
+  # Condition that form is active.
+  - active_loop: simple_pizza_form
+  steps:
+  # This unhappy path handles the case of an intent `bot_challenge`.
+  - intent: bot_challenge
+  - action: utter_iamabot
+  # Return to form after handling the `bot_challenge` intent
+  - action: simple_pizza_form
+  - active_loop: simple_pizza_form
+
+- rule: Activate Product Form
+  steps:
+  - intent: product_help
+  - action: product_form
+  - active_loop: product_form
+
+- rule: Submit Product Form
+  condition:
+  - active_loop: product_form
+  steps:
+  - action: product_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: utter_product_slots
+  - intent: affirm
+  - action: utter_submit
+  - action: utter_anything_else
+
+- rule: Interruption in Product Form
+  condition:
+  # Condition that form is active.
+  - active_loop: product_form
+  steps:
+  # This unhappy path handles the case of an intent `bot_challenge`.
+  - intent: bot_challenge
+  - action: utter_iamabot
+  # Return to form after handling the `bot_challenge` intent
+  - action: product_form
+  - active_loop: product_form

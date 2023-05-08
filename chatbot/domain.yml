@@ -1,0 +1,181 @@
+version: "3.1"
+
+intents:
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - mood_great
+  - mood_unhappy
+  - bot_challenge
+  - thank_you
+  - chitchat
+  - buy_pizza
+  - buy_something
+  - request_pizza_form
+  - stop
+  - out_of_scope
+  - product_help
+  - menu
+  - promo
+  - time
+
+entities:
+- size
+- types
+- brand
+- sex
+- occasion
+- product
+
+slots:
+  size:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: size
+  types:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: types
+  brand:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: brand
+  sex:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: sex
+  occasion:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: occasion
+  product:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: product
+
+forms:
+  simple_pizza_form:
+    required_slots:
+      - size
+      - types
+  product_form:
+    required_slots:
+      - product
+      - occasion
+      - size
+      - brand
+      - sex
+      - occasion
+
+responses:
+  utter_greet:
+  - text: "Hey! How may I help you?"
+  - text: "Hey! How may I assist you today?"
+
+  utter_cheer_up:
+  - text: "Here is something to cheer you up:"
+    image: "https://i.imgur.com/nGF1K8f.jpg"
+
+  utter_did_that_help:
+  - text: "Did that help you?"
+
+  utter_happy:
+  - text: "Great, carry on!"
+
+  utter_goodbye:
+  - text: "Bye"
+  - text: "See you later"
+
+  utter_out_of_scope:
+  - text: Sorry, I can't handle that request.
+  - text: I apologize, but I am unable to process that request.
+  - text: I'm sorry, but I am not equipped to handle that particular request.
+
+  utter_please_rephrase:
+  - text: I'm sorry, I didn't quite understand that. Could you rephrase?
+  - text: I'm sorry, I'm having difficulty understanding what you meant. Would you mind restating it in a different way?
+  - text: I apologize, I'm having trouble making sense of your message. Can you please rephrase it for me?
+
+  utter_iamabot:
+  - text: "I am a bot, powered by Rasa."
+
+  utter_ask_time:
+  - text: "From Monday to Saturday, the hours of operation are between 10:00 AM and 12:00 AM. On Sunday, the hours of operation are between 11:00 AM and 12:00 AM."
+  - text: "The place is open seven days a week, but we start at 10:00 AM and close at midnight from Monday to Saturday, and on Sundays, we open an hour later at 11:00 AM but still close at midnight."
+  - text: "You can drop by this place any day of the week. Monday to Saturday we are open from 10:00 AM till midnight, and on Sundays, we open an hour later at 11:00 AM and close at midnight."
+  utter_ask_promo:
+  - text: "To enter promo dial *121#. Remember promo ends next week."
+  - text: "To participate in the promo, you can dial *121#, and kindly note that the promo will end next week."
+  - text: "o take part in the promo, you can enter by dialing *121#, and please be aware that the promotion will conclude next week."
+  utter_ask_menu:
+  - text: "Here's our menu, feel free to take a look."
+    image: "https://payments.ipaygh.com/app/webroot/img/stores/MER02854-Papas_Pizza.jpeg"  
+  utter_anything_else:
+  - text: "is there anything else I can help you with?"
+  - text: "May I be of further assistance to you?"
+  - text: "Please do not hesitate to let me know if there is anything else that I may assist you with."
+  utter_what:
+  - text: "Please let me know"
+  utter_stop_form:
+  - text: "I have stopped your order"
+  - text: "I would like to inform you that your order has been stopped"
+  - text: "Kindly note that your order has been stopped."
+  utter_product_slots:
+  - text: Perfect! Just to confirm, you would like a {size) sized {brand} {product} for a {sex}. Is that correct?
+  - text: Excellent! To confirm, you have requested a {size} sized {brand} {product} for a {sex}. Is this accurate?
+  - text: Excellent news! Your order is currently in the process of being prepared and will be on its way to you shortly. For your reference, your order includes a {size} sized {brand} {product} for a {sex}. Please let me know if there is anything else I can assist you with today.
+  utter_pizza_slots:
+  - text: Perfect! Just to confirm, you would like a {size} {type} pizza. Is that correct?
+  - text: Excellent! To confirm, you have requested a {size} {type} pizza. Is this accurate?
+  - text: Excellent news! Your pizza is currently in the process of being prepared and will be on its way to you shortly. For your reference, your order includes a {size} {type} pizza. Please let me know if there is anything else I can assist you with today.
+  utter_submit:
+  - text: We are pleased to inform you that your pizza order has been successfully placed.
+  - text: Your pizza order has been successfully placed on your behalf.
+  - text: Your order for a pizza has been successfully placed.
+  utter_ask_continue:
+  - text: Are you sure you want to stop the form?
+  - text: I see. Just to confirm, would you like to stop the pizza order form?
+  - text: To confirm, would you like to terminate the pizza order form?
+  utter_ask_pizza_size:
+  - text: What size would you like your pizza to be?
+  - text: May I know the preferred size of your pizza?
+  - text: What size of pizza do you have in mind?
+  utter_ask_pizza_type:
+  - text: What kind of pizza would you like to buy?
+  - text: What pizza flavor would you like to order?
+  - text: Which pizza variety would you like to buy?
+  - text: Could you please specify the kind of pizza you'd like to purchase?
+  utter_what_i_do:
+  - text: Please don't hesitate to ask for my help if you need information about the restaurant's menu, operating hours, or if you would like to place an order.
+  - text: If you have any questions regarding the menu, operating hours of the restaurant, or would like to place an order, feel free to ask for my assistance.
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
+
+actions:
+- utter_ask_continue
+- utter_goodbye
+- utter_greet
+- utter_pizza_slots
+- utter_submit
+- action_ask_type
+- action_ask_size
+- validate_simple_pizza_form
+- action_ask_brand
+- action_ask_sex
+- action_ask_occasion
+- action_ask_product
+- validate_product_form
